@@ -1,0 +1,7 @@
+{
+  "name": "moneyTrack",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}

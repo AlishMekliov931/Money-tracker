@@ -1,0 +1,96 @@
+page-home {
+    .ios, .md {
+ 
+        page-home {
+     
+            .scroll-content {
+                background-color: map-get($colors, light);
+            }
+     
+            ion-card-header {
+                font-weight: bold;
+            }
+     
+        }
+     
+    }
+
+    .grid {
+        padding: 0 !important;
+    }
+
+    .add {
+        position: fixed;
+        bottom: 5px;
+     * {
+        width: 100%;
+        padding: 0;
+        margin-bottom: 0;
+        margin-top: 2px;
+        text-align: center;
+    }
+
+    button {
+        height: 50px !important;
+        padding: 0 !important;
+    }
+
+    ion-label{
+        margin: 0 !important;
+    }
+
+     button * {
+        text-align: center;
+        padding: 0;
+    }
+
+    ion-icon{
+        width: 20px !important;
+    }
+    ion-select{
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 10px !important;
+      }
+    }
+
+    .left-input{
+        border-right: 0.55px solid #dbdbdf;
+    }
+
+    
+}
+
+.alert-wrapper{
+    border-radius: 13px !important; 
+
+    .alert-title, .alert-message{
+        overflow:hidden;
+        text-align: center !important;
+    }
+
+    button.alert-button{
+        border-top: 0.55px solid #dbdbdf;
+        border-right: 0.55px solid #dbdbdf;
+        width: 50%;
+        margin: 0 !important;
+        text-align: center !important;
+    };
+    
+
+    .alert-button-group{
+        padding: 0;
+        margin: 0;
+    }
+
+    .agree{
+        color: #9ACD32;
+    }
+
+    .disagree{
+        color: #FF6347ed;
+        border-right: 0.55px solid #dbdbdf;
+    }
+}
+
+
