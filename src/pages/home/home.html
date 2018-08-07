@@ -7,9 +7,12 @@
     [dataSource]="dataSource">
   </fusioncharts>
   <ion-grid class="add">
+    <button col-1 color="danger" round  (click)='cleardata()' ion-button icon-only>
+        <ion-icon name="logo-nodejs"></ion-icon>
+      </button>
     <ion-row>
       <ion-item col-6 class="left-input">
-        <ion-input type="number" [(ngModel)]="amount" placeholder="Text Input"></ion-input>
+        <ion-input type="number" (keyup.enter)="enter()" [(ngModel)]="amount" placeholder="Text Input"></ion-input>
       </ion-item>
 
     <ion-item col-6>

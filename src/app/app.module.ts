@@ -16,6 +16,10 @@ import * as FusionCharts from 'fusioncharts';
 import * as Charts from 'fusioncharts/fusioncharts.charts';
 import * as FintTheme from 'fusioncharts/themes/fusioncharts.theme.fint';
 
+import { IonicStorageModule } from '@ionic/storage';
+import { HomeService } from '../pages/home/home.service';
+import { Keyboard } from '@ionic-native/keyboard';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -26,7 +30,8 @@ import * as FintTheme from 'fusioncharts/themes/fusioncharts.theme.fint';
     BrowserModule,
     IonicModule.forRoot(MyApp),
     ChartsModule,
-    FusionChartsModule.forRoot(FusionCharts, Charts, FintTheme)
+    FusionChartsModule.forRoot(FusionCharts, Charts, FintTheme),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -37,7 +42,9 @@ import * as FintTheme from 'fusioncharts/themes/fusioncharts.theme.fint';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    HomeService,
+    Keyboard
   ]
 })
 export class AppModule {}

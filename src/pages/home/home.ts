@@ -1,5 +1,7 @@
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { Platform, AlertController } from 'ionic-angular';
+import { HomeService, IMoneyValue } from './home.service';
+import { Keyboard } from '@ionic-native/keyboard';
 
 @Component({
   selector: 'page-home',
@@ -15,23 +17,27 @@ export class HomePage implements AfterViewInit {
   dataSource: any = {};
 
   chart: any;
-  data: any;
+  data: any = [];
   selectOptions: { title: string; subTitle: string; mode: string; };
 
   amount: number;
-  category: string 
+  category: string
 
   constructor(
     private platform: Platform,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private homeService: HomeService,
+    private keyboard: Keyboard,
   ) {
     this.width = this.platform.width() - 10;
+
+    this.loadData()
   }
 
   ngAfterViewInit(): void {
     setTimeout(() => {
       const forDel = document.getElementsByTagName('tspan')
-      Array.prototype.slice.call(forDel)[forDel.length-1]['style'].display = "none";
+      Array.prototype.slice.call(forDel)[forDel.length - 1]['style'].display = "none";
     }, 400);
 
     this.selectOptions = {
@@ -42,7 +48,7 @@ export class HomePage implements AfterViewInit {
 
     this.chart = {
       "caption": "Spent money",
-      "subcaption": "Today",
+      "subcaption": "From begin",
       "startingangle": "120",
       "showlabels": "0",
       "showlegend": "1",
@@ -50,33 +56,29 @@ export class HomePage implements AfterViewInit {
       "slicingdistance": "15",
       "showpercentvalues": "1",
       "showpercentintooltip": "0",
-      "plottooltext": "Age group : $label Total visit : $datavalue",
+      "showToolTip": "0"
     }
 
-    this.data = [
-      {
-        "label": "Eat (50)",
-        "value": "50"
-      },
-      {
-        "label": "Transport (50)",
-        "value": "50"
-      },
-      {
-        "label": "Accounts (10)",
-        "value": "10"
-      },
-      {
-        "label": "Еntertainment (10)",
-        "value": "10"
-      },
-      {
-        "label": `Other (10)`,
-        "value": "11"
-      }
-    ]
-
     this.dataSource['chart'] = this.chart
+  }
+
+  async loadData() {
+    this.data = []
+    const categories = await this.homeService.getAllKeys()
+    console.warn(categories);
+
+    for (const category of categories) {
+      console.warn(category);
+      const categoryVal = await this.homeService.getDataByKey(category.toString())
+      const sum = categoryVal.map((c) => c.amount).reduce((a, b) => Number(a) + Number(b));
+      const categoryName = category.charAt(0).toUpperCase() + category.slice(1);
+      this.data.push({
+        label: `${categoryName} (${sum})`,
+        value: sum
+      })
+
+    }
+
     this.dataSource['data'] = this.data
   }
 
@@ -95,18 +97,30 @@ export class HomePage implements AfterViewInit {
         {
           text: 'Agree',
           cssClass: 'agree',
-          handler: () => {
-            console.log('Buy clicked');
+          handler: async () => {
+            const categoryData: IMoneyValue[] = await this.homeService.getDataByKey(this.category) || []
+            categoryData.push({ amount: this.amount, date: new Date() } as IMoneyValue)
+            await this.homeService.setValue(this.category, categoryData);
+            await this.loadData()
             this.resetValue()
           }
         }
       ]
     });
     alert.present();
-    
+
   }
 
-  private resetValue(){
+  async cleardata() {
+    await this.homeService.clearAllData()
+    this.loadData()
+  }
+
+  enter() {
+    this.keyboard.close()
+  }
+
+  private resetValue() {
     this.category = ''
     this.amount = null
   }
