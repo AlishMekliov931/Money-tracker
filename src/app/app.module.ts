@@ -20,31 +20,54 @@ import { IonicStorageModule } from '@ionic/storage';
 import { HomeService } from '../pages/home/home.service';
 import { Keyboard } from '@ionic-native/keyboard';
 
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { firebaseConfig } from '../config';
+
+import { LoginPage } from '../pages/login/login';
+import { AuthService } from '../services/auth.service';
+import { SignupPage } from '../pages/signup/signup';
+import { NgxErrorsModule } from '@ultimate/ngxerrors';
+import { DataService } from '../services/data.servicee';
+import { AngularFireDatabaseModule } from '../../node_modules/angularfire2/database';
+import { AngularFireStorageModule } from '../../node_modules/angularfire2/storage';
+
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    ListPage
+    ListPage,
+    LoginPage,
+    SignupPage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     ChartsModule,
     FusionChartsModule.forRoot(FusionCharts, Charts, FintTheme),
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    AngularFireModule.initializeApp(firebaseConfig.fire),
+    NgxErrorsModule,
+    AngularFireDatabaseModule,
+    AngularFireStorageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage
+    ListPage,
+    LoginPage,
+    SignupPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     HomeService,
-    Keyboard
+    Keyboard,
+    AngularFireAuth,
+    AuthService,
+    DataService
   ]
 })
 export class AppModule {}

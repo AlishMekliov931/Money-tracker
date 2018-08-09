@@ -2,6 +2,8 @@ import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { Platform, AlertController } from 'ionic-angular';
 import { HomeService, IMoneyValue } from './home.service';
 import { Keyboard } from '@ionic-native/keyboard';
+import { DataService } from '../../services/data.servicee';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'page-home',
@@ -28,6 +30,7 @@ export class HomePage implements AfterViewInit {
     private alertCtrl: AlertController,
     private homeService: HomeService,
     private keyboard: Keyboard,
+    private dataService: DataService,
   ) {
     this.width = this.platform.width() - 10;
 
@@ -37,7 +40,9 @@ export class HomePage implements AfterViewInit {
   ngAfterViewInit(): void {
     setTimeout(() => {
       const forDel = document.getElementsByTagName('tspan')
-      Array.prototype.slice.call(forDel)[forDel.length - 1]['style'].display = "none";
+      if (forDel.length - 1 >= 0) {
+      Array.prototype.slice.call(forDel)[forDel.length - 1]['style'].display = "none";        
+      }
     }, 400);
 
     this.selectOptions = {
@@ -101,6 +106,15 @@ export class HomePage implements AfterViewInit {
             const categoryData: IMoneyValue[] = await this.homeService.getDataByKey(this.category) || []
             categoryData.push({ amount: this.amount, date: new Date() } as IMoneyValue)
             await this.homeService.setValue(this.category, categoryData);
+            try {
+              await this.dataService.addData(categoryData, this.category)
+              console.warn('success');
+            } catch (error) {
+              console.warn(error);
+              this.alertCtrl.create({
+                title: "Somethig went wrong"
+              }).present()
+            }
             await this.loadData()
             this.resetValue()
           }
@@ -124,4 +138,5 @@ export class HomePage implements AfterViewInit {
     this.category = ''
     this.amount = null
   }
+
 }

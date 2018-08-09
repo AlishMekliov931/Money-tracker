@@ -6,17 +6,25 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 
+import { LoginPage } from '../pages/login/login';
+import { AuthService } from '../services/auth.service';
+
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = HomePage;
+  rootPage: any = LoginPage;
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(
+    public platform: Platform,
+    public statusBar: StatusBar,
+    public splashScreen: SplashScreen,
+    public auth: AuthService,
+  ) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -34,7 +42,28 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+    this.auth.afAuth.authState
+    .subscribe(
+      user => {
+        if (user) {
+          this.rootPage = HomePage;
+        } else {
+          this.rootPage = LoginPage;
+        }
+      },
+      () => {
+        this.rootPage = LoginPage;
+      }
+    );
   }
+
+
+  async logout() {
+    await this.auth.signOut();
+    localStorage.clear()
+    this.nav.setRoot(HomePage);
+  }
+
 
   openPage(page) {
     // Reset the content nav to have just this page
