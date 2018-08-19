@@ -1,23 +1,29 @@
 <ion-header>
   <ion-navbar>
-    <button ion-button menuToggle>
+    <!-- <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>List</ion-title>
+    </button> -->
+    <ion-title>Track History</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content>
-  <ion-list>
-    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
-      <ion-icon [name]="item.icon" item-start></ion-icon>
-      {{item.title}}
-      <div class="item-note" item-end>
-        {{item.note}}
-      </div>
-    </button>
+<ion-content padding>
+  <ion-list no-lines>
+    <ion-grid>
+      <ion-item *ngFor="let d of data">
+        <ion-row>
+          <h6 col-2><ion-icon  [name]="d.icon" item-start></ion-icon></h6>
+          <h6 col-5>{{d.type}}</h6>
+          <h6 *ngIf='d.date' col-5>{{d.date | date: 'short' }}</h6>
+          <h6 *ngIf='!d.date' col-5>No Date</h6>
+        </ion-row>
+          <div class="prive-btn" ion-button clear item-end>
+            <span class="number-circle">{{d.amount}} $</span>
+          </div>
+
+      </ion-item>
+    </ion-grid>
   </ion-list>
-  <div *ngIf="selectedItem" padding>
-    You navigated here from <b>{{selectedItem.title}}</b>
-  </div>
+
+
 </ion-content>

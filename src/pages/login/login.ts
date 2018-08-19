@@ -46,6 +46,8 @@ export class LoginPage {
 				async (r) => {
 					localStorage.setItem('uid', r.uid)
 					const onlineData = await this.dataService.getData().pipe(first()).toPromise()
+					console.warn(onlineData);
+					
 					if (onlineData) {
 						for (const d of onlineData) {
 							await this.homeService.setValue(d.key, d.value);

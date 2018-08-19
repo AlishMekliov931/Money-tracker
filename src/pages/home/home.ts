@@ -75,11 +75,14 @@ export class HomePage implements AfterViewInit {
     for (const category of categories) {
       console.warn(category);
       const categoryVal = await this.homeService.getDataByKey(category.toString())
+
       const sum = categoryVal.map((c) => c.amount).reduce((a, b) => Number(a) + Number(b));
+      const fixed2Sum = Number(sum).toFixed(2)
+      
       const categoryName = category.charAt(0).toUpperCase() + category.slice(1);
       this.data.push({
-        label: `${categoryName} (${sum})`,
-        value: sum
+        label: `${categoryName} (${fixed2Sum})`,
+        value: fixed2Sum
       })
 
     }

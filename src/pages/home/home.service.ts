@@ -36,13 +36,11 @@ export class HomeService {
     //     return
     // }
 
-    // async all() {
-    //     const allData = []
-    //      await this.storage.forEach((k, v) => {
-    //         console.warn(k);
-    //         console.warn(v);
-            
-    //     })
-    //     return allData
-    // }
+    async all() {
+        const allData = []
+         await this.storage.forEach((v, k) => {
+             allData.push({type: k, value: v})
+        })
+        return allData
+    }
 }

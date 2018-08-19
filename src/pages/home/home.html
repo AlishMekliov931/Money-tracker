@@ -1,38 +1,42 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Home</ion-title>
+  </ion-navbar>
+</ion-header>
+
 <ion-content class="container">
-  <fusioncharts
-    [width]="width"
-    [height]="height"
-    [type]="type"
-    [dataFormat]="dataFormat"
-    [dataSource]="dataSource">
+  <fusioncharts [width]="width" [height]="height" [type]="type" [dataFormat]="dataFormat" [dataSource]="dataSource">
   </fusioncharts>
   <ion-grid class="add">
-    <button col-1 color="danger" round  (click)='cleardata()' ion-button icon-only>
-        <ion-icon name="logo-nodejs"></ion-icon>
-      </button>
+    <button col-1 color="danger" round (click)='cleardata()' ion-button icon-only>
+      <ion-icon name="logo-nodejs"></ion-icon>
+    </button>
     <ion-row>
       <ion-item col-6 class="left-input">
         <ion-input type="number" (keyup.enter)="enter()" [(ngModel)]="amount" placeholder="Text Input"></ion-input>
       </ion-item>
 
-    <ion-item col-6>
-      <ion-select [selectOptions]="selectOptions" [(ngModel)]="category" class="select select-sm" placeholder="Category">
-        <ion-option value="eat">Eat</ion-option>
-        <ion-option value="transport">Transport</ion-option>
-        <ion-option value="accounts">Accounts</ion-option>
-        <ion-option value="entertainment">Entertainment</ion-option>
-        <ion-option value="other">Other</ion-option>
-      </ion-select>
-    </ion-item>
+      <ion-item col-6>
+        <ion-select [selectOptions]="selectOptions" [(ngModel)]="category" class="select select-sm" placeholder="Category">
+          <ion-option value="eat">Eat</ion-option>
+          <ion-option value="transport">Transport</ion-option>
+          <ion-option value="accounts">Accounts</ion-option>
+          <ion-option value="entertainment">Entertainment</ion-option>
+          <ion-option value="other">Other</ion-option>
+        </ion-select>
+      </ion-item>
     </ion-row>
 
     <ion-row>
-    <ion-item>
-    <button (click)='add()' ion-button full outline color="secondary" [disabled]="!amount || !category">
-      Add
-      <ion-icon name="add-circle"></ion-icon>
-    </button>
-    </ion-item>
+      <ion-item>
+        <button (click)='add()' ion-button full outline color="secondary" [disabled]="!amount || !category">
+          Add
+          <ion-icon name="add-circle"></ion-icon>
+        </button>
+      </ion-item>
     </ion-row>
   </ion-grid>
 </ion-content>
