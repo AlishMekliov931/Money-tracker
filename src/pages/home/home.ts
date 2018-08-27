@@ -107,7 +107,7 @@ export class HomePage implements AfterViewInit {
           cssClass: 'agree',
           handler: async () => {
             const categoryData: IMoneyValue[] = await this.homeService.getDataByKey(this.category) || []
-            categoryData.push({ amount: this.amount, date: new Date() } as IMoneyValue)
+            categoryData.push({ amount: this.amount, date: Date.now() } as IMoneyValue)
             await this.homeService.setValue(this.category, categoryData);
             try {
               await this.dataService.addData(categoryData, this.category)

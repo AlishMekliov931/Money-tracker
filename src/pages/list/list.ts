@@ -44,7 +44,9 @@ export class ListPage {
       }
     }
 
-    this.data = this.data.sort((a, b) => a.date > b.date? -1 : 1)
+    const noDate = this.data.filter(d => !d.date)
+    this.data = this.data.filter(d => d.date).sort((a, b) => a.date > b.date ? -1 : 1)
+    this.data.push(...noDate)
     console.warn(this.data);
   }
 }

@@ -4,7 +4,7 @@ import { Observable } from "../../../node_modules/rxjs/Observable";
 
 export interface IMoneyValue {
     amount: number
-    date: Date
+    date: number
 }
 
 
